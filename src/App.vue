@@ -1,15 +1,17 @@
 <template>
-  <img alt="Vue logo" src="./assets/logo.png">
-  <HelloWorld msg="Welcome to Your Vue.js App"/>
+  <AdventOfCode day="1" year="2015"/>
+  <FooterDefault/>
 </template>
 
 <script>
-import HelloWorld from './components/HelloWorld.vue'
+import AdventOfCode from "@/components/AdventOfCode.vue";
+import FooterDefault from "@/components/FooterDefault.vue";
 
 export default {
   name: 'App',
   components: {
-    HelloWorld
+    AdventOfCode,
+    FooterDefault
   }
 }
 </script>
