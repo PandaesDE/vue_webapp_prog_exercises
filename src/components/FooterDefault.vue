@@ -1,5 +1,5 @@
 <template>
-  <div class="hello">
+  <footer>
     <p>
       For a guide and recipes on how to configure / customize this project,<br>
       check out the
@@ -26,7 +26,7 @@
       <li><a href="https://vue-loader.vuejs.org" target="_blank" rel="noopener">vue-loader</a></li>
       <li><a href="https://github.com/vuejs/awesome-vue" target="_blank" rel="noopener">awesome-vue</a></li>
     </ul>
-  </div>
+  </footer>
 </template>
 
 <script>
@@ -37,9 +37,17 @@ export default {
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped>
-h3 {
-  margin: 40px 0 0;
+footer {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  border-top: 1px solid black;
+  h3 {
+    margin: 40px 0 0;
+  }
 }
+
 ul {
   list-style-type: none;
   padding: 0;

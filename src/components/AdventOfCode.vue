@@ -1,15 +1,36 @@
 <template>
   <div class="aoc">
     <h1>Advent of Code {{day}}.12.{{ year }}</h1>
+    <p>Test: {{info}}</p>
   </div>
 </template>
 
 <script>
+import AOCService from "@/services/AOCService";
+
 export default {
   name: 'AdventOfCode',
-  props: {
-    year: Number,
-    day: Number
+  data() {
+    return {
+      info: null,
+      year: 2015,
+      day: 1
+    }
+  },
+  methods: {
+    getAOCInfos(year, day) {
+      AOCService.getAOCInfo(year, day)
+      .then((res) => {
+        this.info = res.data;
+        return res;
+      })
+      .catch((res) => {
+        this.info = "no data found: " + res;
+      });
+    }
+  },
+  created() {
+    this.getAOCInfos(this.year, this.day);
   }
 }
 </script>
