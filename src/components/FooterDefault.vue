@@ -38,9 +38,6 @@ export default {
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped>
 footer {
-  position: fixed;
-  bottom: 0;
-  left: 0;
   width: 100%;
   border-top: 1px solid black;
   h3 {

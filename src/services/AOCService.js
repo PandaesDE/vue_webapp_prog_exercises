@@ -1,10 +1,21 @@
-import axios from "axios";
-
-
 export default new class AOCService {
-    getAOCInfo(year, day) {
-        let path = `${process.env.BACKEND_API_URL}/aoc/${year}/${day}`;
-        console.log(path);
-        return axios.get(path);
+
+    #genericFetch(path) {
+        return fetch(path)
+            .then((res) => {
+                return res.text();
+            })
+            .catch((res) => {
+                return "no info data found " + res;
+            });
+    }
+
+
+    async getAOCInfo(year, day) {
+        return await this.#genericFetch(`/api/aoc/${year}/${day}`);
+    }
+
+    async getAOCCode(year, day) {
+        return await this.#genericFetch(`/api/aoc/getCode/${year}/${day}`);
     }
 }
