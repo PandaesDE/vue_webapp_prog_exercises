@@ -11,6 +11,10 @@ h1 {
   font-size: 52pt;
 }
 
+button, textarea {
+  border-radius: 5px;
+}
+
 .debug {
   border: 1px solid black;
 }

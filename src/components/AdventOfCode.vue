@@ -6,14 +6,26 @@
     </header>
     <section id="AOC_Content" class="container">
       <div class="row">
-        <div class="col-6 code-field" v-html="code"></div>
-        <div class="col-2 solution-field">
+        <div class="col-9 code-field">
+          <h2>Sourcecode</h2>
+          <div class="code" v-html="code"></div>
+        </div>
+        <div class="col-3 data-field">
+          <h2>Input Data</h2>
+          <div class="input">
+            <input id="input_year" type="number" min="2015" max="2024" step="1" placeholder="year">
+            <button @click="submitYear()">Submit</button>
+          </div>
+          <div class="input">
+            <input id="input_day" type="number" min="1" max="25" step="1" placeholder="day">
+            <button @click="submitDay()">Submit</button>
+          </div>
+          <div class="input">
+            <textarea v-model="message" placeholder="insert your input data"></textarea>
+            <button>Submit</button>
+          </div>
           <h2>Solution</h2>
           <p>{{ solution }}</p>
-        </div>
-        <div class="col-1 input-field">
-          <textarea v-model="message" placeholder="insert your input data"></textarea>
-          <button>Submit</button>
         </div>
       </div>
     </section>
@@ -41,13 +53,47 @@ export default {
     }
   },
   async created() {
-    this.solution = await AOCService.getAOCInfo(this.year, this.day);
-    this.code = await AOCService.getAOCCode(this.year, this.day);
-    this.code = ConvertingService.textToHTML(this.code);
-    console.log(JSON.stringify(this.code));
+    await this.updateSolution();
+    await this.updateCode();
   },
   methods: {
+    async updateSolution() {
+      this.solution = await AOCService.getAOCInfo(this.year, this.day);
+    },
+    async updateCode() {
+      this.code = await AOCService.getAOCCode(this.year, this.day);
+      this.code = ConvertingService.textToHTML(this.code);
+    },
+    submitYear() {
+      let yearInputElement = document.querySelector("#input_year");
+      if (!yearInputElement) return;
 
+      let year = yearInputElement.value;
+
+      if (!year) return;
+      if (year < 2015 || year > 2024) return;
+      //prevents unnecessary fetching
+      if (this.year === year) return;
+
+      this.year = year;
+      this.updateSolution();
+      this.updateCode();
+    },
+    submitDay() {
+      let dayInputElement = document.querySelector("#input_day");
+      if (!dayInputElement) return;
+
+      let day = dayInputElement.value;
+
+      if (!day) return;
+      if (day < 1 || day > 25) return;
+      //prevents unnecessary fetching
+      if (this.day === day) return;
+
+      this.day = day;
+      this.updateSolution();
+      this.updateCode();
+    }
   },
 }
 </script>
@@ -92,30 +138,42 @@ export default {
     > .row {
       width: 100%;
     }
+    h2 {
+      margin-top: 1.5em;
+      margin-bottom: .5em;
+    }
     .code-field {
-      background: black;
-      border: 1px solid white;
-      border-radius: 15px;
-      padding: 15px;
-      text-align: left;
-      color: white;
-      ::v-deep p {
-        margin: 0;
-        height: 1.5em;
-        .highlight {
-          color: #6484d2;
+      .code{
+        background: rgba(0,0,0,.75);
+        border: 1px solid white;
+        border-radius: 15px;
+        padding: 15px;
+        text-align: left;
+        color: white;
+        ::v-deep p {
+          margin: 0;
+          height: 1.5em;
+          .highlight {
+            color: #6484d2;
+          }
         }
       }
     }
-    .input-field {
-      width: 400px;
-      textarea {
-        overflow: hidden;
-        resize: none;
-        height: 2em;
-      }
-      button {
-        width: 100%;
+    .data-field {
+      .input {
+        display: flex;
+        margin: .5em 0;
+        gap: .5em;
+        input, textarea {
+          padding: 0 .5em;
+          flex: 2;
+          overflow: hidden;
+          resize: none;
+          height: 2em;
+        }
+        button {
+          flex: 1;
+        }
       }
     }
   }
