@@ -103,11 +103,26 @@ export default {
 #AOC {
   background: #0f0f23;
   min-height: 100vh;
+  font-family: "Source Code Pro", monospace;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  color: white;
   h1,h2,h3,h4,h5,h6 {
     color: white;
   }
-  span,.highlight {
+  span.highlight, button, a {
     color: #009900;
+    background: transparent;
+    border: none;
+    &:hover {
+      color: #99ff99;
+    }
+  }
+  input, textarea {
+    background: transparent;
+    border: none;
+    border-radius: 5px;
+    border-bottom: 1px solid white;
   }
   header {
     position: relative;
