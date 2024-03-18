@@ -13,16 +13,16 @@
         <div class="col-3 data-field">
           <h2>Input Data</h2>
           <div class="input">
-            <input id="input_year" type="number" min="2015" max="2024" step="1" placeholder="year">
-            <button @click="submitYear()">Submit</button>
+            <input id="input_year" type="number" min="2015" max="2024" step="1" placeholder="year" @change="changeInputYear">
+            <button @click="submitData()">Submit</button>
           </div>
           <div class="input">
-            <input id="input_day" type="number" min="1" max="25" step="1" placeholder="day">
-            <button @click="submitDay()">Submit</button>
+            <input id="input_day" type="number" min="1" max="25" step="1" placeholder="day" @change="changeInputDay">
+            <button @click="submitData()">Submit</button>
           </div>
           <div class="input">
             <textarea v-model="message" placeholder="insert your input data"></textarea>
-            <button>Submit</button>
+            <button @click="submitData()">Submit</button>
           </div>
           <h2>Solution</h2>
           <p>{{ solution }}</p>
@@ -64,7 +64,7 @@ export default {
       this.code = await AOCService.getAOCCode(this.year, this.day);
       this.code = ConvertingService.textToHTML(this.code);
     },
-    submitYear() {
+    changeInputYear() {
       let yearInputElement = document.querySelector("#input_year");
       if (!yearInputElement) return;
 
@@ -76,10 +76,8 @@ export default {
       if (this.year === year) return;
 
       this.year = year;
-      this.updateSolution();
-      this.updateCode();
     },
-    submitDay() {
+    changeInputDay() {
       let dayInputElement = document.querySelector("#input_day");
       if (!dayInputElement) return;
 
@@ -91,9 +89,11 @@ export default {
       if (this.day === day) return;
 
       this.day = day;
+    },
+    submitData() {
       this.updateSolution();
       this.updateCode();
-    }
+    },
   },
 }
 </script>
@@ -150,7 +150,7 @@ export default {
         padding: 15px;
         text-align: left;
         color: white;
-        ::v-deep p {
+        :deep(p) {
           margin: 0;
           height: 1.5em;
           .highlight {
