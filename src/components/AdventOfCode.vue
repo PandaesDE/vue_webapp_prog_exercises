@@ -5,6 +5,9 @@
       <img src="../assets/images/Banner.jpg" alt="">
     </header>
     <section id="AOC_Content" class="container">
+      <div id="background_input_text">
+        <span > {{AOCinput}} </span>
+      </div>
       <div class="row">
         <div class="col-9 code-field">
           <h2>Sourcecode</h2>
@@ -14,15 +17,14 @@
           <h2>Input Data</h2>
           <div class="input">
             <input id="input_year" type="number" min="2015" max="2024" step="1" placeholder="year" @change="changeInputYear">
-            <button @click="submitData()">Submit</button>
           </div>
           <div class="input">
             <input id="input_day" type="number" min="1" max="25" step="1" placeholder="day" @change="changeInputDay">
-            <button @click="submitData()">Submit</button>
+            <button @click="getData">Get</button>
           </div>
           <div class="input">
-            <textarea v-model="message" placeholder="insert your input data"></textarea>
-            <button @click="submitData()">Submit</button>
+            <textarea id="input_aoc" v-model="message" placeholder="insert your input data" @change="changeInputAOC"></textarea>
+            <button @click="submitInput">Submit</button>
           </div>
           <h2>Solution</h2>
           <p>{{ solution }}</p>
@@ -48,22 +50,28 @@ export default {
     return {
       solution: null,
       code: null,
+      AOCinput: null,
       year: 2015,
       day: 1
     }
   },
   async created() {
-    await this.updateSolution();
-    await this.updateCode();
+    await this.getData();
   },
   methods: {
-    async updateSolution() {
+    async getSolution() {
       this.solution = await AOCService.getAOCInfo(this.year, this.day);
     },
-    async updateCode() {
+    async getCode() {
       this.code = await AOCService.getAOCCode(this.year, this.day);
       this.code = ConvertingService.textToHTML(this.code);
     },
+    async getInput() {
+      this.AOCinput = await AOCService.getAOCInput(this.year, this.day);
+    },
+
+
+
     changeInputYear() {
       let yearInputElement = document.querySelector("#input_year");
       if (!yearInputElement) return;
@@ -90,9 +98,26 @@ export default {
 
       this.day = day;
     },
-    submitData() {
-      this.updateSolution();
-      this.updateCode();
+    changeInputAOC() {
+      let aocInputElement = document.querySelector("#input_aoc");
+      if (!aocInputElement) return;
+
+      let input = aocInputElement.value;
+
+      if (!input) return;
+
+      this.AOCinput = input;
+    },
+
+
+    async getData() {
+      await this.getCode();
+      await this.getInput();
+      await this.getSolution();
+    },
+    async submitInput() {
+      await AOCService.setAOCInput(this.year, this.day, this.AOCinput);
+      await this.getData();
     },
   },
 }
@@ -112,14 +137,15 @@ export default {
   }
   span.highlight, button, a {
     color: #009900;
-    background: transparent;
+    background: #0f0f23;
     border: none;
     &:hover {
       color: #99ff99;
     }
   }
   input, textarea {
-    background: transparent;
+    color: white;
+    background: #0f0f23;
     border: none;
     border-radius: 5px;
     border-bottom: 1px solid white;
@@ -153,11 +179,26 @@ export default {
     > .row {
       width: 100%;
     }
+    #background_input_text {
+      position: absolute;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      color: rgba(white,.02);
+      z-index: 0;
+      overflow: hidden;
+      span {
+        font-size: 20pt;
+        transform: rotate(30deg);
+        user-select: none;
+      }
+    }
     h2 {
       margin-top: 1.5em;
       margin-bottom: .5em;
     }
     .code-field {
+      z-index: 1;
       .code{
         background: rgba(0,0,0,.75);
         border: 1px solid white;
@@ -175,6 +216,7 @@ export default {
       }
     }
     .data-field {
+      z-index: 1;
       .input {
         display: flex;
         margin: .5em 0;
