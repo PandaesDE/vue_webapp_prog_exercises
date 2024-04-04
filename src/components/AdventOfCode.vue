@@ -11,7 +11,13 @@
       <div class="row">
         <div class="col-9 code-field">
           <h2>Sourcecode</h2>
-          <div class="code" v-html="code"></div>
+          <div class="row">
+            <div class="col text-start">Code written for Java 21</div>
+            <div class="col text-end">Day of creation: </div>
+          </div>
+          <pre>
+            <code class="code" v-html="applyJavaHighlighting(code)"></code>
+          </pre>
         </div>
         <div class="col-3 data-field">
           <h2>Input Data</h2>
@@ -38,8 +44,8 @@
 <script>
 
 import AOCService from "@/services/AOCService";
-import ConvertingService from "@/services/ConvertingService";
 import FooterDefault from "@/components/FooterDefault.vue";
+import hljs from 'highlight.js';
 
 export default {
   name: 'AdventOfCode',
@@ -59,12 +65,18 @@ export default {
     await this.getData();
   },
   methods: {
+    applyJavaHighlighting(code) {
+      return hljs.highlight(
+          code,
+          {language: 'java'}
+      ).value;
+    },
+
     async getSolution() {
       this.solution = await AOCService.getAOCInfo(this.year, this.day);
     },
     async getCode() {
       this.code = await AOCService.getAOCCode(this.year, this.day);
-      this.code = ConvertingService.textToHTML(this.code);
     },
     async getInput() {
       this.AOCinput = await AOCService.getAOCInput(this.year, this.day);
@@ -125,6 +137,8 @@ export default {
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped lang="scss">
+@import "highlight.js/styles/github-dark-dimmed.css";
+
 #AOC {
   background: #0f0f23;
   min-height: 100vh;
@@ -199,22 +213,18 @@ export default {
     }
     .code-field {
       z-index: 1;
-      .code{
+      pre {
+        text-align: left;
         background: rgba(0,0,0,.75);
         border: 1px solid white;
         border-radius: 15px;
-        padding: 15px;
-        text-align: left;
-        color: white;
-        :deep(p) {
-          margin: 0;
-          height: 1.5em;
-          .highlight {
-            color: #6484d2;
-          }
+        padding: 15px 15px 15px 3em;
+        code {
+
         }
       }
     }
+
     .data-field {
       z-index: 1;
       .input {
