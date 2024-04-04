@@ -7,6 +7,8 @@
 }
 
 
+
+
 h1 {
   font-size: 52pt;
 }
@@ -17,6 +19,18 @@ button, textarea {
 
 .debug {
   border: 1px solid black;
+}
+
+::-webkit-scrollbar {
+  width: 5px;
+}
+::-webkit-scrollbar-track {
+  background-color: transparent;
+  margin: 15px;
+}
+::-webkit-scrollbar-thumb {
+  background-color: white;
+  border-radius: 5px;
 }
 
 //bootstrap Override

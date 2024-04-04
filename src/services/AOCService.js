@@ -1,6 +1,6 @@
 export default new class AOCService {
 
-    #genericGETFetch(path) {
+    #genericGETFetchText(path) {
         return fetch(path)
             .then((res) => {
                 return res.text();
@@ -8,6 +8,16 @@ export default new class AOCService {
             .catch((res) => {
                 return "no info data found " + res;
             });
+    }
+
+    #genericGETFetchJson(path) {
+        return fetch(path)
+            .then((res) => {
+                return res.json();
+            })
+            .catch((res) => {
+                return {res};
+            })
     }
 
     #genericPOSTFetch(path, body) {
@@ -28,11 +38,11 @@ export default new class AOCService {
 
 
     async getAOCInfo(year, day) {
-        return await this.#genericGETFetch(`/api/aoc/${year}/${day}`);
+        return await this.#genericGETFetchJson(`/api/aoc/${year}/${day}`);
     }
 
     async getAOCCode(year, day) {
-        return await this.#genericGETFetch(`/api/aoc/getCode/${year}/${day}`);
+        return await this.#genericGETFetchText(`/api/aoc/getCode/${year}/${day}`);
     }
 
     async getAOCInput(year, day) {

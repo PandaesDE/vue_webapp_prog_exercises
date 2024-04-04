@@ -1,7 +1,7 @@
 <template>
   <div id="AOC" class="container-fluid">
     <header>
-      <h1>Advent of Code {{day}}.12.{{ year }}</h1>
+      <h1>Advent of Code</h1>
       <img src="../assets/images/Banner.jpg" alt="">
     </header>
     <section id="AOC_Content" class="container">
@@ -12,7 +12,7 @@
         <div class="col-9 code-field">
           <h2>Sourcecode</h2>
           <div class="row">
-            <div class="col text-start">Code written for Java 21</div>
+            <div class="col text-start">Code written for <span class="highlight">Java 21</span></div>
             <div class="col text-end">Day of creation: </div>
           </div>
           <pre>
@@ -22,18 +22,19 @@
         <div class="col-3 data-field">
           <h2>Input Data</h2>
           <div class="input">
-            <input id="input_year" type="number" min="2015" max="2024" step="1" placeholder="year" @change="changeInputYear">
+            <input id="input_year" type="number" min="2015" max="2024" step="1" placeholder="year" v-model="this.year"  @change="changeInputYear">
           </div>
           <div class="input">
-            <input id="input_day" type="number" min="1" max="25" step="1" placeholder="day" @change="changeInputDay">
+            <input id="input_day" type="number" min="1" max="25" step="1" placeholder="day" v-model="this.day" @change="changeInputDay">
             <button @click="getData">Get</button>
           </div>
           <div class="input">
-            <textarea id="input_aoc" v-model="message" placeholder="insert your input data" @change="changeInputAOC"></textarea>
+            <textarea id="input_aoc" placeholder="insert your input data" @change="changeInputAOC"></textarea>
             <button @click="submitInput">Submit</button>
           </div>
           <h2>Solution</h2>
-          <p>{{ solution }}</p>
+          <p>Answer 1: {{ solution.answer1 }}</p>
+          <p>Answer 2: {{ solution.answer2 }}</p>
         </div>
       </div>
     </section>
@@ -54,10 +55,13 @@ export default {
   },
   data() {
     return {
-      solution: null,
+      solution: {
+        answer1: null,
+        answer2: null,
+      },
       code: null,
       AOCinput: null,
-      year: 2015,
+      year: 2016,
       day: 1
     }
   },
@@ -149,7 +153,11 @@ export default {
   h1,h2,h3,h4,h5,h6 {
     color: white;
   }
-  span.highlight, button, a {
+  span.highlight {
+    color: #ffff66;
+    text-shadow: 0 0 5px #ffff66
+  }
+  button, a {
     color: #009900;
     background: #0f0f23;
     border: none;
@@ -213,7 +221,11 @@ export default {
     }
     .code-field {
       z-index: 1;
+
       pre {
+        max-height: 80vh;
+        overflow-y: scroll;
+
         text-align: left;
         background: rgba(0,0,0,.75);
         border: 1px solid white;
