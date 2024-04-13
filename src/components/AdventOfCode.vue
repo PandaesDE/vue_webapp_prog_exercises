@@ -38,21 +38,16 @@
         </div>
       </div>
     </section>
-    <FooterDefault/>
   </div>
 </template>
 
 <script>
 
 import AOCService from "@/services/AOCService";
-import FooterDefault from "@/components/FooterDefault.vue";
 import hljs from 'highlight.js';
 
 export default {
   name: 'AdventOfCode',
-  components: {
-    FooterDefault
-  },
   data() {
     return {
       solution: {
@@ -70,6 +65,8 @@ export default {
   },
   methods: {
     applyJavaHighlighting(code) {
+      if (!code) return "";
+
       return hljs.highlight(
           code,
           {language: 'java'}

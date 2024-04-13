@@ -1,19 +1,25 @@
 <template>
-  <AdventOfCode day="1" year="2015"/>
+  <router-view></router-view>
+  <footer-default></footer-default>
 </template>
 
 <script>
-import AdventOfCode from "@/components/AdventOfCode.vue";
+import FooterDefault from "@/components/FooterDefault.vue";
 
 export default {
   name: 'App',
   components: {
-    AdventOfCode,
-  }
+    FooterDefault
+  },
+
 }
 </script>
 
 <style lang="scss">
 @import '~bootstrap/scss/bootstrap.scss';
 @import 'assets/style/custom.scss';
+
+body {
+  color: black;
+}
 </style>
